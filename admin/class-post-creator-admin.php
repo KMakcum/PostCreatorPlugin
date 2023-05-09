@@ -62,7 +62,6 @@ class Post_Creator_Admin {
      * @since    1.0.0
      */
     public function post_creator_menu_page(){
-
         add_menu_page(
             'Создание постов',
             'Creator',
@@ -77,15 +76,15 @@ class Post_Creator_Admin {
     public function post_creator_page_callback(){?>
         <h1><?php echo get_admin_page_title()?></h1>
 
-        <div id="tabs">
+        <div class="tabs">
             <ul>
-                <li><a href="#tabs-1">Создать</a></li>
-                <li><a href="#tabs-2">Обновить</a></li>
+                <li><a href="#create">Создать</a></li>
+                <li><a href="#update">Обновить</a></li>
             </ul>
-            <div id="tabs-1">
+            <div id="create">
                 <?php include plugin_dir_path( __FILE__ ) . '/template-parts/tabs/creating.php'; ?>
             </div>
-            <div id="tabs-2">
+            <div id="update">
                 <?php include plugin_dir_path( __FILE__ ) . '/template-parts/tabs/updating.php'; ?>
             </div>
         </div>
@@ -143,7 +142,7 @@ class Post_Creator_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-    //todo: don't working
+    //todo: не работает. Скрипты подключаются в другом месте
 	public function load_assets($hook) {
         if ($hook != 'toplevel_page_post-creator') {
             return;
@@ -151,7 +150,6 @@ class Post_Creator_Admin {
 
         wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-tabs');
-
 
         $this->enqueue_styles();
         $this->enqueue_scripts();

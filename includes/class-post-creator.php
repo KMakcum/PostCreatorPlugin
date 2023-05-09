@@ -117,6 +117,11 @@ class Post_Creator {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-post-creator-admin.php';
 
 		/**
+		 * The main class in which the logic for creating posts occurs.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-post-creator-main.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
@@ -124,6 +129,7 @@ class Post_Creator {
 
 		$this->loader = new Post_Creator_Loader();
 
+		new Post_Creator_Main();
 	}
 
 	/**
