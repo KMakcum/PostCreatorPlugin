@@ -100,4 +100,55 @@ class Post_Creator_Public {
 
 	}
 
+    /**
+     * Sorts terms into a hierarchy.
+     *
+     * @since    1.0.0
+     */
+    public function sort_terms_hierarchicaly( & $cats, & $into, $parentId = 0 ){
+        foreach( $cats as $i => $cat ){
+            if( $cat->parent == $parentId ){
+                $into[ $cat->term_id ] = $cat;
+                unset( $cats[$i] );
+            }
+        }
+
+        foreach( $into as $top_cat ){
+            $top_cat->children = [];
+            $this->sort_terms_hierarchicaly( $cats, $top_cat->children, $top_cat->term_id );
+        }
+    }
+
+    /**
+     * Display all categories in a selector.
+     *
+     * @since    1.0.0
+     */
+    public function display_category_selector($category) {
+
+        $categories = get_terms($category, ['hide_empty' => false]);
+        $cat_hierarchy = [];
+        $this->sort_terms_hierarchicaly( $categories, $cat_hierarchy );
+
+        $this->categories_hierarchy_list($cat_hierarchy);
+    }
+
+    public function categories_hierarchy_list($cat_hierarchy){
+
+        if (!empty($cat_hierarchy)) {
+            echo '<ul style="padding-left: 15px">';
+            foreach ($cat_hierarchy as $cat) {
+                echo '<li>';
+                    echo '<label>
+                        <input type="checkbox" 
+                        name="posts_cats['. $cat->term_id .']">
+                        ' . $cat->name . '
+                    </label>';
+
+                $this->categories_hierarchy_list($cat->children);
+                echo '</li>';
+            }
+            echo '</ul>';
+        }
+    }
 }

@@ -2,13 +2,12 @@
     'use strict';
 
     $(function() {
-        $('#create_form').on('submit', function (e) {
+        $('#simple_creating').on('submit', function (e) {
             e.preventDefault();
-            get_list_product(this);
+            simple_create(this);
         });
 
-        function get_list_product(form) {
-
+        function simple_create(form) {
             $.ajax({
                 url: '/wp-admin/admin-ajax.php',
                 data: $(form).serialize(),
