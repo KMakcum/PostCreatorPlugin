@@ -52,7 +52,6 @@ class Post_Creator_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-        add_action( 'admin_enqueue_scripts', [$this, 'load_assets'],  );
         add_action( 'admin_menu', [$this, 'post_creator_menu_page'], 25 );
 	}
 
@@ -96,7 +95,7 @@ class Post_Creator_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles($hook) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -109,6 +108,8 @@ class Post_Creator_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+
+        if ($hook !== 'toplevel_page_post-creator') return;
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/post-creator-admin.css', array(), $this->version, 'all' );
 
@@ -119,7 +120,7 @@ class Post_Creator_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts($hook) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -133,26 +134,15 @@ class Post_Creator_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/post-creator-admin.js', array( 'jquery' ), $this->version, false );
-
-	}
-
-	/**
-	 * Loading JavaScript and Styles for the Post Creator page.
-	 *
-	 * @since    1.0.0
-	 */
-    //todo: не работает. Скрипты подключаются в другом месте
-	public function load_assets($hook) {
-        if ($hook != 'toplevel_page_post-creator') {
-            return;
-        }
-
+        if ($hook !== 'toplevel_page_post-creator') return;
         wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-tabs');
 
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
+        wp_enqueue_script( 'popper-core', 'https://unpkg.com/@popperjs/core@2', [], '', false );
+        wp_enqueue_script( 'tippy', 'https://unpkg.com/tippy.js@6', [], '', false );
+
+        wp_enqueue_script( $this->plugin_name.'-frontend', plugin_dir_url( __FILE__ ) . 'js/frontend.js', array( 'jquery' ), $this->version, false );
+        wp_enqueue_script( $this->plugin_name.'-backend', plugin_dir_url( __FILE__ ) . 'js/backend.js', array( 'jquery' ), $this->version, false );
     }
 
 }

@@ -52,61 +52,104 @@
     .form_area {
       grid-template-columns: repeat(2, 1fr); } }
 
-@media (min-width: 767px) {
-  .form_field--full {
-    grid-column-start: 1;
-    grid-column-end: 3; } }
-
-.form_field__hidden {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .3s; }
-
-.form_field__desc {
-  font-size: 12px;
-  color: #D9D9D9;
-  margin-top: 6px; }
-
-.form_field label {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 8px; }
-
-.form_field input[type="text"],
-.form_field input[type="number"],
-.form_field textarea {
-  border: 1px solid #D9D9D9;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #000;
-  font-size: 14px;
-  font-weight: 500;
-  height: 40px;
-  line-height: 20px;
-  padding: 10px 16px;
-  transition: all .3s; }
-  .form_field input[type="text"]:hover, .form_field input[type="text"]:focus,
-  .form_field input[type="number"]:hover,
-  .form_field input[type="number"]:focus,
-  .form_field textarea:hover,
-  .form_field textarea:focus {
-    border-color: #000; }
-  .form_field input[type="text"]:focus,
-  .form_field input[type="number"]:focus,
-  .form_field textarea:focus {
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3); }
-
-.form_field textarea {
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 200px; }
-  .form_field textarea::-webkit-scrollbar {
-    width: 3px;
-    height: 3px; }
-  .form_field textarea::-webkit-scrollbar-thumb {
-    background: #D9D9D9; }
-  .form_field textarea::-webkit-scrollbar-track {
-    background: transparent; }
+.form_field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; }
+  .form_field__wrapper {
+    display: grid;
+    gap: 20px; }
+    @media (min-width: 767px) {
+      .form_field__wrapper {
+        grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 767px) {
+    .form_field__wrapper, .form_field--full {
+      grid-column-start: 1;
+      grid-column-end: 3; } }
+  .form_field__desc {
+    font-size: 12px;
+    color: #D9D9D9;
+    margin-top: 6px; }
+  .form_field label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 8px; }
+  .form_field input[type="text"] {
+    width: 100%; }
+  .form_field input[type="text"],
+  .form_field input[type="number"],
   .form_field textarea {
-    scrollbar-face-color: #D9D9D9;
-    scrollbar-track-color: transparent; }
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    padding: 10px 16px;
+    transition: all .3s; }
+    .form_field input[type="text"]:hover, .form_field input[type="text"]:focus,
+    .form_field input[type="number"]:hover,
+    .form_field input[type="number"]:focus,
+    .form_field textarea:hover,
+    .form_field textarea:focus {
+      border-color: #000; }
+    .form_field input[type="text"]:focus,
+    .form_field input[type="number"]:focus,
+    .form_field textarea:focus {
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3); }
+  .form_field textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 200px; }
+    .form_field textarea::-webkit-scrollbar {
+      width: 3px;
+      height: 3px; }
+    .form_field textarea::-webkit-scrollbar-thumb {
+      background: #D9D9D9; }
+    .form_field textarea::-webkit-scrollbar-track {
+      background: transparent; }
+    .form_field textarea {
+      scrollbar-face-color: #D9D9D9;
+      scrollbar-track-color: transparent; }
+
+.switcher-select__field {
+  display: none; }
+
+.tooltip {
+  display: flex;
+  margin-left: 8px; }
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 20px;
+  color: #fff;
+  font-weight: 600;
+  user-select: none;
+  text-align: center;
+  transition: all .3s;
+  border-radius: 24px;
+  cursor: pointer; }
+  @media (min-width: 767px) {
+    .btn {
+      width: fit-content;
+      min-width: 160px;
+      padding: 10px 25px; } }
+  @media (min-width: 767px) {
+    .btn {
+      padding: 10px 40px; } }
+  .btn--border-bottom {
+    border-radius: 6px;
+    border-top: 0; }
+  .btn--shadow {
+    color: #524f4e;
+    background: white;
+    border-radius: 45px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+    .btn--shadow:hover {
+      background: #2EE59D;
+      box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
+      color: white;
+      transform: translateY(-7px); }
