@@ -143,6 +143,11 @@ class Post_Creator_Admin {
 
         wp_enqueue_script( $this->plugin_name.'-frontend', plugin_dir_url( __FILE__ ) . 'js/frontend.js', array( 'jquery' ), $this->version, false );
         wp_enqueue_script( $this->plugin_name.'-backend', plugin_dir_url( __FILE__ ) . 'js/backend.js', array( 'jquery' ), $this->version, false );
+
+        if ( ! did_action( 'wp_enqueue_media' ) ) {
+            wp_enqueue_media();
+        }
+        wp_enqueue_script( $this->plugin_name.'-media', plugin_dir_url( __FILE__ ) . 'js/media.js', array('jquery'), $this->version, false );
     }
 
 }

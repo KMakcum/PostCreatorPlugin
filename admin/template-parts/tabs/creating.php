@@ -100,15 +100,15 @@ $plugin_admin = new Post_Creator_Public('','');
                     </div>
 
                     <div class="form_field form_field--half">
-<!--                        <label for="post_url">Ярлык записи-->
-<!---->
-<!--                            <span class="tooltip" data-tippy-content="«Ярлык» — это вариант названия, подходящий для URL. Обычно содержит только латинские буквы в нижнем регистре, цифры и дефисы.">-->
-<!--                                <svg class="tooltip_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">-->
-<!--                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16ZM8 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1 3v4a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0Z"></path>-->
-<!--                                </svg>-->
-<!--                            </span>-->
-<!--                        </label>-->
-<!--                        <input type="text" id="post_url" name="post_url" required>-->
+                        <label>Изображение записей</label>
+                        <div class="thumb-add">
+                            <div class="thumb-add__wrapper">
+                                <input type="hidden" name="post_image" id="post_image" value="" />
+                                <div type="submit" class="upload_image_button button">Добавить изображение</div>
+                                <div type="submit" class="remove_image_button button">×</div>
+                            </div>
+                            <div class="thumb-add__img upload_image_button"></div>
+                        </div>
                     </div>
 
 

@@ -164,7 +164,7 @@ class Post_Creator_Public {
                 echo '<li>';
                     echo '<label>
                         <input type="checkbox" 
-                        name="posts_cats['. $cat->term_id .']"
+                        name="post_cats['. $cat->term_id .']"
                         value="'. $cat->term_id .'">
                         ' . $cat->name . '
                     </label>';

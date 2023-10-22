@@ -45,10 +45,11 @@ class Post_Creator_Main {
         $post_count = !empty($_POST['count_posts']) ? esc_html($_POST['count_posts']) : 1;
         $post_title = !empty($_POST['post_title']) ? esc_html($_POST['post_title']) : 'Post';
         $post_type = !empty($_POST['post_type']) ? esc_html($_POST['post_type']) : 'post';
-        $posts_cats = !empty($_POST['posts_cats']) ? array_values($_POST['posts_cats']) : [];
+        $post_cats = !empty($_POST['post_cats']) ? array_values($_POST['post_cats']) : [];
         $post_status = !empty($_POST['post_status']) ? esc_html($_POST['post_status']) : 'publish';
         $post_content = !empty($_POST['post_content']) ? esc_html($_POST['post_content']) : '';
         $post_excerpt = !empty($_POST['post_excerpt']) ? esc_html($_POST['post_excerpt']) : '';
+        $post_image = !empty($_POST['post_image']) ? esc_html($_POST['post_image']) : '';
 
         if (empty($post_count)) die('Введите количество записей');
         if (empty($post_title)) die('Введите заголовок записи');
@@ -64,7 +65,8 @@ class Post_Creator_Main {
 
         if (!empty($post_content)) $post_data['post_content'] = $post_content;
         if (!empty($post_excerpt)) $post_data['post_excerpt'] = $post_excerpt;
-        if (!empty($posts_cats)) $post_data['post_category'] = $posts_cats;
+        if (!empty($post_cats)) $post_data['post_category'] = $post_cats;
+        if (!empty($post_image)) $post_data['meta_input']['_thumbnail_id'] = $post_image;
 
         for ($i = 1; $i <= $post_count; $i++) {
             wp_insert_post( $post_data );
