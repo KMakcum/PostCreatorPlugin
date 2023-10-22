@@ -52,6 +52,8 @@ class Post_Creator_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+        add_action('wp_ajax_update_categories', [$this, 'update_categories_handler']);
+        add_action('wp_ajax_nopriv_update_categories', [$this, 'update_categories_handler']);
 	}
 
 	/**
@@ -124,13 +126,34 @@ class Post_Creator_Public {
      *
      * @since    1.0.0
      */
-    public function display_category_selector($category) {
+    public function display_category_selector($post_type) {
 
-        $categories = get_terms($category, ['hide_empty' => false]);
-        $cat_hierarchy = [];
-        $this->sort_terms_hierarchicaly( $categories, $cat_hierarchy );
+        $args = array(
+            'public'   => true,
+            'object_type' => [$post_type],
+        );
 
-        $this->categories_hierarchy_list($cat_hierarchy);
+        $taxonomies = get_taxonomies( $args, 'names', 'and' );
+
+        if (!empty($taxonomies['post_format'])) unset($taxonomies['post_format']);
+        if (!empty($taxonomies['post_tag'])) unset($taxonomies['post_tag']);
+        if (!empty($taxonomies['product_shipping_class'])) unset($taxonomies['product_shipping_class']);
+
+        if (!empty($taxonomies)) {
+            foreach ($taxonomies as $taxonomy) {
+                if (!empty($taxonomy)) {
+                    $categories = get_categories( [
+                        'taxonomy'   => $taxonomy,
+                        'hide_empty' => 0,
+                    ] );
+
+                    $cat_hierarchy = [];
+                    $this->sort_terms_hierarchicaly( $categories, $cat_hierarchy );
+
+                    $this->categories_hierarchy_list($cat_hierarchy);
+                }
+            }
+        }
     }
 
     public function categories_hierarchy_list($cat_hierarchy){
@@ -141,7 +164,8 @@ class Post_Creator_Public {
                 echo '<li>';
                     echo '<label>
                         <input type="checkbox" 
-                        name="posts_cats['. $cat->term_id .']">
+                        name="posts_cats['. $cat->term_id .']"
+                        value="'. $cat->term_id .'">
                         ' . $cat->name . '
                     </label>';
 
@@ -150,5 +174,26 @@ class Post_Creator_Public {
             }
             echo '</ul>';
         }
+    }
+
+    /**
+     * Ajax handler update category
+     *
+     * @since    1.0.0
+     */
+    public function update_categories_handler(){
+        $post_type = !empty($_POST['post_type']) ? $_POST['post_type'] : '';
+
+        if (empty($post_type)) wp_send_json_error('Post type not found');
+
+        ob_start();
+        $this->display_category_selector($post_type);
+        $new_categories_html = ob_get_clean();
+
+        if (empty($new_categories_html)) wp_send_json_error('Not categories');
+
+        wp_send_json_success( $new_categories_html, 200);
+
+        die();
     }
 }
