@@ -42,40 +42,33 @@ class Post_Creator_Main {
             wp_send_json_error();
         }
 
-        if (empty($_POST['count_posts'])) die('Введите количество постов');
-        if (empty($_POST['post_title'])) die('Введите заголовок поста');
-        if (empty($_POST['post_title'])) die('Введите заголовок поста');
+        $post_count = !empty($_POST['count_posts']) ? esc_html($_POST['count_posts']) : 1;
+        $post_title = !empty($_POST['post_title']) ? esc_html($_POST['post_title']) : 'Post';
+        $post_type = !empty($_POST['post_type']) ? esc_html($_POST['post_type']) : 'post';
+        $posts_cats = !empty($_POST['posts_cats']) ? array_values($_POST['posts_cats']) : [];
+        $post_status = !empty($_POST['post_status']) ? esc_html($_POST['post_status']) : 'publish';
+        $post_content = !empty($_POST['post_content']) ? esc_html($_POST['post_content']) : '';
+        $post_excerpt = !empty($_POST['post_excerpt']) ? esc_html($_POST['post_excerpt']) : '';
 
+        if (empty($post_count)) die('Введите количество записей');
+        if (empty($post_title)) die('Введите заголовок записи');
+        if (empty($post_type)) die('Выберите тип записи');
 
         $user_id = get_current_user_id();
-        $post_data = array(
-            'post_author'           => $user_id,
-            'post_content'          => $_POST['post_content'],
-            'post_content_filtered' => '',
-            'post_title'            => sanitize_text_field( $_POST['post_title'] ),
-            'post_excerpt'          => $_POST['post_excerpt'],
-            'post_status'           => 'publish',
-            'post_type'             => $_POST['post_type'],
-            'comment_status'        => '',
-            'ping_status'           => '',
-            'post_password'         => '',
-            'to_ping'               => '',
-            'pinged'                => '',
-            'post_parent'           => 0,
-            'menu_order'            => 0,
-            'guid'                  => '',
-            'import_id'             => 0,
-            'context'               => '',
-            'post_date'             => '',
-            'post_date_gmt'         => '',
-            'post_category'         => $_POST['posts_cats'],
-        );
+        $post_data = [
+            'post_author' => $user_id,
+            'post_title'  => sanitize_text_field($post_title),
+            'post_type'   => $post_type,
+            'post_status' => $post_status,
+        ];
 
-        for ($i = 1; $i < $_POST['count_posts']; $i++) {
+        if (!empty($post_content)) $post_data['post_content'] = $post_content;
+        if (!empty($post_excerpt)) $post_data['post_excerpt'] = $post_excerpt;
+        if (!empty($posts_cats)) $post_data['post_category'] = $posts_cats;
+
+        for ($i = 1; $i <= $post_count; $i++) {
             wp_insert_post( $post_data );
         }
-
-
 
         wp_send_json_success(
             [
